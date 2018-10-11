@@ -1,6 +1,7 @@
 package wildcards.main;
 
 import wildcards.connector.MySQL;
+import wildcards.connector.utils.Wildcard;
 
 public class Main {
 	/**
@@ -13,8 +14,9 @@ public class Main {
 	 * @param password	 Sets the password for the MySQL connection
 	 * @param autoReconnect	 Sets whether to automatically reconnect to the database
 	 */
-	public void establishConnection(String host, int port, String database, String username, String password, boolean autoReconnect) {
+	public Wildcard establishConnection(String host, int port, String database, String username, String password, boolean autoReconnect) {
 		MySQL mysql = new MySQL(host, port, database, username, password, autoReconnect);
-		mysql.connectToDB();
+		Wildcard wc = mysql.connectToDB();
+		return wc;
 	}
 }

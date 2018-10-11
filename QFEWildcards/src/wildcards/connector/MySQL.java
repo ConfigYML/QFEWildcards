@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import wildcards.connector.utils.Wildcard;
+
 public class MySQL {
 
 	private static String host;
@@ -23,7 +25,8 @@ public class MySQL {
 		MySQL.autoReconnect = autoReconnect;
 	}
 
-	public void connectToDB() {
+	public Wildcard connectToDB() {
+		Wildcard wc = null;
 		try {
 			try {
 				Class.forName("com.mysql.jdbc.Driver");
@@ -32,9 +35,12 @@ public class MySQL {
 			}
 			con = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?user=" + username
 					+ "&password=" + password + "&autoReconnect=" + String.valueOf(autoReconnect));
+			wc = new Wildcard(con);
+			return wc;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		return wc;
 	}
 
 	public void disconnect() {

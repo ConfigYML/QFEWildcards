@@ -36,7 +36,9 @@ public class MySQL {
 			con = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?user=" + username
 					+ "&password=" + password + "&autoReconnect=" + String.valueOf(autoReconnect));
 			wc = new Wildcard(con);
-			return wc;
+			if(isConnected()) {
+				DatabaseHelper dbh = new DatabaseHelper(con);
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

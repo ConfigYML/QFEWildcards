@@ -2,6 +2,7 @@ package wildcards;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import wildcards.connector.MySQL;
@@ -31,6 +32,29 @@ public class Wildcard {
 		}
 		
 		return successful;
+	}
+	
+	/**
+	 * Return whether the wildcard is already used or ready for use.
+	 * @param id ID to check, if it's used or not
+	 * @return
+	 */
+	public boolean isUsed(int id) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("select * from Wildcards where WildcardID = "  + id + ";");
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				if(rs.getInt("Used") == 0) {
+					return false;
+				} else {
+					return true;
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return true;
 	}
 
 }

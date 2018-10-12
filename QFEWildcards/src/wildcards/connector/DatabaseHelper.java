@@ -15,7 +15,7 @@ public class DatabaseHelper {
 		connection = con;
 		
 		try {
-			PreparedStatement ps = connection.prepareStatement("create table if not exists Wildcards(WildcardID not null auto_increment, Token varchar(256), Used tinyint,  primary key(WildcardID));");
+			PreparedStatement ps = connection.prepareStatement("create table if not exists Wildcards(WildcardID int not null auto_increment primary key, Token varchar(256), Used tinyint);");
 			ps.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();

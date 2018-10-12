@@ -149,4 +149,59 @@ public class Wildcard {
 		}
 	}
 
+	/**
+	 * 
+	 * @param id
+	 *            The ID to check if it exists or not
+	 * @return Whether a wildcard with the given ID exists or not
+	 */
+	public boolean wildcardExists(int id) {
+		try {
+			PreparedStatement ps = connection.prepareStatement("select * from Wildcards where WildcardID=" + id + ";");
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				return true;
+			}
+			return false;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+	/**
+	 * 
+	 * @param id
+	 *            The ID to reset the used status
+	 * @return Whether it was successful to reset or not
+	 */
+	public boolean resetToken(int id) {
+		if (wildcardExists(id)) {
+			return setTokenUsed(id, false);
+		}
+		return false;
+	}
+
+	/**
+	 * 
+	 * @param id The ID from the entry that should be edited
+	 * @param used The boolean the used status should be set to
+	 * @return Whether the update of the used status was successful or not
+	 */
+	public boolean setTokenUsed(int id, boolean used) {
+		int toSet = 0;
+		if (used == true) {
+			toSet = 1;
+		}
+		try {
+			PreparedStatement ps = connection
+					.prepareStatement("update Wildcards set Used = " + toSet + " where WildcardID = '" + id + "';");
+			ps.executeUpdate();
+			return true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+
 }
